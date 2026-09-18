@@ -1,0 +1,32 @@
+# Training configuration.
+# Kept separate from code so hyperparameters can be tuned / logged
+# without touching train.py.
+
+data:
+  train_dir: data/train        # expects data/train/Normal, data/train/Tuberculosis
+  val_dir: data/val
+  img_size: [224, 224]
+  batch_size: 32
+  seed: 42
+
+model:
+  backbone: EfficientNetB0      # any tf.keras.applications backbone name
+  freeze_backbone: true
+  dropout: 0.4                  # was 0.3 - a bit more regularization, aiming for fewer
+                                 # confidently-wrong predictions on hard/atypical images
+  dense_units: 128
+
+train:
+  epochs: 30
+  learning_rate: 0.0001
+  fine_tune_epochs: 18          # was 10 - more room to adapt; EarlyStopping (patience=5,
+                                 # monitor=val_auc) still stops it early if it stops helping
+  fine_tune_learning_rate: 0.00001
+  class_weighting: true         # compensate for Normal:TB class imbalance (capped at a
+                                 # 2.5:1 ratio in dataset.py's compute_class_weights - see
+                                 # its docstring for why)
+
+output:
+  model_path: model.h5
+  history_csv: training_history.csv
+  history_plot: training_history.png

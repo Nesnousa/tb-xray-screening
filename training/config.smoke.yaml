@@ -1,0 +1,29 @@
+# Quick smoke-test config: same data, just far fewer epochs.
+# Goal is only to confirm the whole pipeline runs end-to-end (data loading,
+# model build, one training step, checkpoint saved) before committing to
+# the full, much longer run in config.yaml.
+
+data:
+  train_dir: data/train
+  val_dir: data/val
+  img_size: [224, 224]
+  batch_size: 32
+  seed: 42
+
+model:
+  backbone: EfficientNetB0
+  freeze_backbone: true
+  dropout: 0.3
+  dense_units: 128
+
+train:
+  epochs: 2
+  learning_rate: 0.0001
+  fine_tune_epochs: 0
+  fine_tune_learning_rate: 0.00001
+  class_weighting: true
+
+output:
+  model_path: model_smoke_test.h5
+  history_csv: training_history_smoke.csv
+  history_plot: training_history_smoke.png
