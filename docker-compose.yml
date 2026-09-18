@@ -1,0 +1,9 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./model.h5:/srv/model.h5:ro
+    environment:
+      - DECISION_THRESHOLD=0.5
