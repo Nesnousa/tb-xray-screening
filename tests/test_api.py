@@ -21,7 +21,7 @@ class _FakeModel:
     def predict(self, batch, verbose=0):
         import numpy as np
 
-        return np.array([[0.82]])  # pretend high TB probability
+        return np.array([[0.97]])  # pretend high TB probability (above the 0.94 decision threshold)
 
 
 @pytest.fixture(autouse=True)
